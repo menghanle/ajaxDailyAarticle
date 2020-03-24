@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>我的每日一文</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jquery/3/jquery-3.4.1.js"></script>
+    <style>
+        @keyframes rotation {
+			0% {
+				-webkit-transform: rotate(0deg);
+			}
+
+			100% {
+				-webkit-transform: rotate(360deg);
+			}
+		}
+        #sj{
+            position: fixed;
+            bottom: 200px;
+            right: 20px;
+            margin-left: 605px;
+        }
+        #sj img{
+			position: absolute;
+			z-index: 999;
+			right: 20px;
+			top: 20px;
+			width: 40px;
+			height: 40px;
+			animation: rotation 3s linear infinite;
+			-moz-animation: rotation 3s linear infinite;
+			-webkit-animation: rotation 3s linear infinite;
+			-o-animation: rotation 3s linear infinite;
+			cursor: pointer;
+
+        }
+        #head{
+            background-color: #B6A7A4;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+            height: 50px;
+            min-width: 500px;
+            opacity: 0.92;
+            overflow: hidden;
+            width: 100%;
+        }
+        #self{
+            float:right;
+            padding-top:10px;
+            margin-right:100px;
+        }
+        #text {
+            height:20px;
+            color:pink;
+            
+        }
+        #submit-btn{
+            background-color: #FDDB6F;
+            border-color: #D69E31 #E3A037 #D5982D;
+            border-radius: 3px 3px 3px 3px;
+            border-style: solid;
+            border-width: 1px;
+            box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+            color: #8F5A0A;
+            cursor: pointer;
+            font: bold 15px Arial,Helvetica;
+            padding: 5px 15px;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+        .wd{
+            padding-top:5px;
+            float:left;
+            color: #DDDDDD;
+            font-family: "微软雅黑","黑体";
+            font-size: 26px;
+            font-weight: bold;
+            margin-right: 10px;
+            margin-left:100px;
+        }
+        /* 主体 */
+        #shenti{
+            border: 1px dashed #CCCCCC;
+            bottom: 5px;
+            box-shadow: 0 0 0 1px #FFFFFF;
+            content: "";
+            left: 5px;
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            z-index: -1;
+            border-radius: 3px 3px 3px 3px;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(0, 0, 0, 0.2), 0 3px 0 #FFFFFF, 0 4px 0 rgba(0, 0, 0, 0.2), 0 6px 0 #FFFFFF, 0 7px 0 rgba(0, 0, 0, 0.2);
+            margin: 40px auto 0;
+            min-height: 300px;
+            padding: 80px 50px 0;
+            position: relative;
+            width: 700px;
+            z-index: 0;
+            background-color:#FFFFFF;
+        }
+        #title{
+            color: #000000;
+            font-weight: normal;
+            letter-spacing: 4px;
+            margin: 0 0 30px;
+            position: relative;
+            text-align: center;
+            text-transform: uppercase;
+        }
+        #curr{
+            display:inline-block;
+        }
+        #data{
+            margin-top:20px;
+            display:inline-block;
+            color: #999999 !important;
+            float:right;
+        }
+        #digest{
+            font-size:14px;
+            display:inline-block;
+        }
+        #prev,#next{
+            background: rgb(29, 146, 56);
+            font: bold 16px/40px "";
+            font-stretch: normal;
+            font-size-adjust: none;
+            width: 150px;
+            height: 40px;
+            text-align: center;
+            color: rgb(255, 255, 255);
+            display: block;
+            font-size-adjust: none;
+            font-stretch: normal;
+            display:inline-block;
+            
+        }
+        #next{
+           margin-left:390px;
+        }
+        #content{
+            color: #000;
+            font-size: 16px;
+            font-weight: normal;
+            line-height: 30px;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+        #body{
+            background-attachment: fixed;
+            background-clip: border-box;
+            background-color: #666666;
+            background-origin: padding-box;
+            background-position: center top;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='head'>
+        <div class='wd'>我的每日一文</div>
+        <form action="#" id="self">
+            <input type="text" name="date" value=""placeholder='20190112' title="请按照提示信息填写" id='text'>
+            <input type="submit" value="查找" id="submit-btn">
+        </form>
+    </div>
+    <div id='body'>
+        <div id='shenti'>
+            <button id="prev">前一天文章</button>
+            <button id="next">后一天文章</button>
+            <h1 id='title'></h1>
+            <h2 id='curr'></h2>
+            <div id='data'></div>
+            <h3><span>简介:</span><span id='digest'></span></h3>
+           
+            <p id='content'></p>
+        </div>
+        
+        <div id='sj'>
+            <img id='img' src='./timg.png' title='随机文章'>
+        </div>
+    </div>
+
+    <script src="myajax.js"></script>
+    <script>   
+    //创建数组用来保存图片地址
+    var imgarr = ['1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg','8.jpg','9.jpg',];
+    //生成随机数
+    var sjs = Math.floor(Math.random()*9);
+    //当页面显示是随机出现背景图片
+    $('#body').css({"background-image":"url(./img/"+imgarr[sjs]+")"});
+    // console.log("url(./img/"+imgarr[sjs]+")");
+
+    //创建当前,前一天,后一天 时间
+    var currDate = "", prevDate = "",nextDate = "";    
+    // 1. 获取当天文章： 首页加载完后显示当天文章
+        createArticle("today",{"dev": 1});
+
+    // 2. 显示随即一天文章： 点击按钮显示隋艺一天文章
+        //点击事件:点击是随机一天文章
+        $("#img").click(function(){
+            createArticle("random",{"dev": 1});
+        });
+
+    // 3. 显示特定一天文章： 用户输入特定日期或者用户在日期选择器选择日期，点击按钮显示特定一天文章
+    //找到我要序列化的表单
+    var infoForm = document.querySelector("#self");
+        // console.log(infoForm.elements);   
+    //给提交按钮
+    var submitBtn = document.querySelector("#submit-btn");
+        //添加事件
+        submitBtn.addEventListener("click",function(e){
+            //让原来事件失效
+            e.preventDefault();
+            //用自己写的函数把表单内容拿出来
+            var res = _.formSerializeToJson(infoForm);
+            // console.log(res.date);
+            // var final = _.jsonToUrl(res);
+            // console.log(final);
+            // 3. 显示特定一天文章： 用户输入特定日期或者用户在日期选择器选择日
+            createArticle("day",{"dev": 1,"date": res.date});
+        })
+
+        // 4. 显示前一天和后一天文章： 用户点击前一天按钮，前一天日期从数据中获取，然后发送请求获取前一天文章数据并展示；后一天和前一天一样
+        //事件:前一天
+        $("#prev").click(function () {
+            createArticle("day",{"dev": 1,"date": prevDate});
+            // console.log(prevDate);
+        })
+        //事件:后一天
+        $("#next").click(function () {
+            createArticle("day",{"dev": 1,"date": nextDate});
+        })
+
+
+         //创建函数:用来添加内容
+        function createArticle(t,j) {
+            
+        _.get("https://interface.meiriyiwen.com/article/"+t, 
+                j
+            ,
+            function (d) {
+                // console.log(d);
+                //当前时间
+                $('#curr').text(d.data.date.curr);
+                // 名字
+                $('#data').text(d.data.author);
+                //标题
+                $('#title').text(d.data.title);
+                // 介绍
+                $('#digest').text(d.data.digest);
+                //内容
+                $('#content').html(d.data.content);
+                // 当前时间,前一天,后一天
+                 currDate = d.data.date.curr, prevDate = d.data.date.prev,nextDate = d.data.date.next;
+                // console.log(currDate,prevDate,nextDate);
+
+            });
+            }
+    </script>
+</body>
+
+</html>
